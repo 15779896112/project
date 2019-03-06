@@ -15,12 +15,17 @@
     {% block extcss %}
     {% endblock %}
 </head>
+<script src='{% static 'base/js/jquery.min.js' %}'></script>
+<script src="{% static 'base/js/base.js' %}"></script>
+
+{% block extjs %}
+{% endblock %}
 <body>
 {% block body %}
 
 
     {% block header %}
-        <header>爱鲜蜂</header>
+        <header>小蜂蜂</header>
     {% endblock %}
 
 
@@ -66,12 +71,9 @@
     {% endblock %}
 
 
-{% endblock %}
+{% endblock  %}
 
-<script scr="{% static 'base/js/jquery.min.js' %}"></script>
-<script scr="{% static 'base/js/base.js' %}"></script>
-{% block extjs %}
-{% endblock %}
+
 
 
 </body>
