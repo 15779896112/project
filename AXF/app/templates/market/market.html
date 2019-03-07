@@ -13,5 +13,64 @@
 
 
 {% block content %}
-    闪购超市
+    <div class="market">
+
+        <div class="type-slider">
+            <ul>
+                {% for foodtype in foodtypes %}
+
+                    <li>
+                        <a href="{% url 'axf:market' foodtype.typesort %}">{{ foodtype.typename }}</a>
+                        <span>1111</span>
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+        </div>
+
+        <nav>
+            <ul>
+
+                <li>
+                    <span>全部类型<i class="glyphicon glyphicon-chevron-up"></i></span>
+                </li>
+                <li>
+                    <span>综合排序<i class="glyphicon glyphicon-chevron-down"></i></span>
+                </li>
+
+
+            </ul>
+        </nav>
+
+
+        <div class="main-content">
+            <div class="content-wrapper">
+                <ul>
+                    {% for goods in goods_all %}
+
+                        <li>
+                            <a href="#">
+                                <img src="{{ goods.productimg }}" alt="" class="goods-img">
+                                <div class="goods-info">
+                                    <div class="name">{{ goods.productlongname }}</div>
+                                    <div class="detailtag">
+                                        {% if goods.isxf %}
+                                            <span class="xf">goods.isxf</span>
+                                        {% endif %}
+
+                                    </div>
+                                    <div class="specifics">{{ goods.specifics }}</div>
+                                    <div class="price">
+                                        <span class="now-price">￥{{ goods.price }}</span>
+                                        <span class="market-price">￥{{ goods.marketprice }}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}

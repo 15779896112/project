@@ -110,6 +110,7 @@ footer .market .name {
     display: block;
     width: 33.3%;
     float: left;
+    height: 100%;
 }
 .market .main-content .content-wrapper ul li a .goods-info{
     width: 66.6%;

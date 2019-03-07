@@ -8,8 +8,9 @@
             base
         {% endblock %}
     </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+       <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'base/css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'base/css/base.css' %}">
     {% block extcss %}
@@ -31,9 +32,13 @@
 
 
     <div id="content" class="hidescroll">
-        {% block content %}
+    <div id="content">
+            {% block content %}
 
-        {% endblock %}
+
+            {% endblock %}
+    </div>
+
     </div>
 
 
