@@ -24,18 +24,44 @@ def home(request):
     return render(request,'home/home.html',context=home_list)
 
 
-def market(request,type=1):
+def market(request,childcid='0',sortid='0'):
     foodtypes = Foodtypes.objects.all()
-    goods_all = Goods.objects.all()[0:10]
-    # typenames = foodtypes.filter(typesort=type)[0]
-    # name_list = typenames.childtypenames.split('#')
+    index = int(request.COOKIES.get('index',0))
+    typeid = foodtypes[index].typeid
+    # goods_all = Goods.objects.filter(categoryid = typeid)
+    namestr_list = foodtypes[index].childtypenames.split('#')
+    print(sortid)
+    if childcid == '0':
+        goods_all = Goods.objects.filter(categoryid=typeid)
+    else:
+        goods_all = Goods.objects.filter(childcid=childcid)
+    name_list = []
+    if sortid == '1':
+        goods_all = goods_all.order_by('-productnum')
+    if sortid == '2':
+        goods_all = goods_all.order_by('price')
+    if sortid == '3':
+        goods_all = goods_all.order_by('-price')
+
+    for name in namestr_list:
+        name_dicy = {}
+        lis = name.split(':')
+        name_dicy['sname'] = lis[0]
+        name_dicy['id'] = lis[1]
+        name_list.append(name_dicy)
+
+
+
+
 
 
 
     food_list = {
         'foodtypes':foodtypes,
-        # 'name_list':name_list,
         'goods_all':goods_all,
+        'name_list':name_list,
+        'childcid':childcid,
+
     }
     return render(request, 'market/market.html',context=food_list)
 
@@ -45,4 +71,5 @@ def cart(request):
 
 
 def mine(request):
+
     return render(request, 'mine/mine.html')

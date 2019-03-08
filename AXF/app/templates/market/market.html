@@ -10,7 +10,9 @@
 {% block extcss %}
     <link rel="stylesheet" href="{% static 'market/css/market.css' %}">
 {% endblock %}
-
+{% block extjs %}
+    <script src="{% static 'market/js/market.js' %}"></script>
+{% endblock %}
 
 {% block content %}
     <div class="market">
@@ -20,8 +22,9 @@
                 {% for foodtype in foodtypes %}
 
                     <li>
-                        <a href="{% url 'axf:market' foodtype.typesort %}">{{ foodtype.typename }}</a>
-                        <span>1111</span>
+                        <span></span>
+                        <a href="{% url 'axf:market' %}">{{ foodtype.typename }}</a>
+
                     </li>
 
                 {% endfor %}
@@ -32,11 +35,11 @@
         <nav>
             <ul>
 
-                <li>
+                <li id="fenlei">
                     <span>全部类型<i class="glyphicon glyphicon-chevron-up"></i></span>
                 </li>
-                <li>
-                    <span>综合排序<i class="glyphicon glyphicon-chevron-down"></i></span>
+                <li id="paixu">
+                    <span>综合排序<i class="glyphicon glyphicon-chevron-up"></i></span>
                 </li>
 
 
@@ -45,6 +48,7 @@
 
 
         <div class="main-content">
+
             <div class="content-wrapper">
                 <ul>
                     {% for goods in goods_all %}
@@ -56,7 +60,7 @@
                                     <div class="name">{{ goods.productlongname }}</div>
                                     <div class="detailtag">
                                         {% if goods.isxf %}
-                                            <span class="xf">goods.isxf</span>
+                                            <span class="xf">精选</span><span>{{ goods.productnum }}</span>
                                         {% endif %}
 
                                     </div>
@@ -70,6 +74,31 @@
                         </li>
                     {% endfor %}
                 </ul>
+
+
+                <div class="bounce-view fenlei">
+                    <div class="bounce-wrapper " >
+                        {% for name in name_list %}
+                            <span><a href="{% url 'axf:markets' name.id 0  %}">{{ name.sname }}</a></span>
+                        {% endfor %}
+
+
+                 </div>
+
+
+                </div>
+
+                <div class="bounce-view paixu" >
+                     <div class="bounce-wrapper " >
+                        <span><a href="{% url 'axf:markets' childcid 0  %}">综合排序</a></span>
+                        <span><a href="{% url 'axf:markets' childcid 1  %}">销量排序</a></span>
+                        <span><a href="{% url 'axf:markets' childcid 2  %}">价格最低</a></span>
+                        <span><a href="{% url 'axf:markets' childcid 3  %}">价格最高</a></span>
+                    </div>
+
+
+
+
             </div>
         </div>
     </div>
