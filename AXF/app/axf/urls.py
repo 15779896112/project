@@ -8,7 +8,10 @@ urlpatterns = [
     url(r'^market/',views.market,name='market'),
     url(r'^cart/',views.cart,name='cart'),
     url(r'^mine/',views.mine,name='mine'),
-
-
+    url(r'^register/',views.register,name='register'),
+    url(r'^logout/',views.logout,name='logout'),
+    url(r'^login/',views.login,name='login'),
+    url(r'^fileup/',views.fileup,name='fileup'),
+    url(r'^verifycode/',views.verifycode,name='verifycode')
 
 ]

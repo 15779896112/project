@@ -1,0 +1,3 @@
+$(function () {
+    $('.fileup').width(innerWidth)
+})

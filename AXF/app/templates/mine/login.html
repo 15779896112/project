@@ -1,0 +1,51 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+    登录
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block extcss %}
+    <link rel="stylesheet" href="{% static 'mine/css/login.css' %}">
+{% endblock %}
+
+{% block extjs %}
+    <script src="{% static 'mine/js/login.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="login">
+        <div class="back">
+            <a href="{% url 'axf:mine' %}">
+                <span class=" glyphicon glyphicon-remove "></span>
+            </a>
+        </div>
+
+        <form action="{% url 'axf:login' %}" method="post">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <span class="input-group-addon">账号</span>
+                <input type="text" class="form-control" placeholder={{ err1|default:"6~10位数字" }} name="username">
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon">密码</span>
+                <input type="password" class="form-control" placeholder={{ err2|default:"6~10位数密码" }} name="password">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">验证码</span>
+                <input type="password" class="form-control" placeholder={{ err3|default:"4位" }} name="yzm">
+            </div>
+            <div class="yzm">
+            <img src="{% url 'axf:verifycode' %}" alt="">
+            </div>
+{#            <button id="sx">刷新</button>#}
+
+            <input type="submit" value="登录" id="subButton">
+        </form>
+    </div>
+{% endblock %}

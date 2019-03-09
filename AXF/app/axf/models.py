@@ -100,3 +100,13 @@ class Goods(models.Model):
     dealerid=models.CharField(max_length=100)
     storenums=models.IntegerField()
     productnum=models.IntegerField()
+
+
+class User(models.Model):
+    username = models.CharField(max_length=20,unique=True)
+    password = models.CharField(max_length=256)
+    name = models.CharField(max_length=20)
+    ss = models.CharField(max_length=10,default='1')
+    tel = models.CharField(max_length=20)
+    add = models.CharField(max_length=100,default='')
+    img = models.CharField(max_length=100,default='1552114651.7579901QQ图片20180807200333.jpg')

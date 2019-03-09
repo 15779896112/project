@@ -1,0 +1,40 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+    上传图片
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block extcss %}
+    <link rel="stylesheet" href="{% static 'mine/css/fileup.css' %}">
+{% endblock %}
+
+{% block extjs %}
+    <script src="{% static 'mine/js/fileup.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="fileup">
+        <div class="back">
+            <a href="{% url 'axf:mine' %}">
+                <span class=" glyphicon glyphicon-remove "></span>
+            </a>
+        </div>
+
+        <form action="{% url 'axf:fileup' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <span class="input-group-addon">选择图片</span>
+                <input type="file" value="上传文件" name="file">
+            </div>
+
+
+
+            <input type="submit" value="上传" id="subButton">
+        </form>
+    </div>
+{% endblock %}
