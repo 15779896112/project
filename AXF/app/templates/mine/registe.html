@@ -26,27 +26,51 @@
 
         <form action="{% url 'axf:register' %}" method="post">
             {% csrf_token %}
+            <div class="form-group -has-error has-feedback">
+                <div class="input-group">
+                    <span class="input-group-addon">手机号</span>
+                    <input type="text" class="form-control" placeholder="请输入正确的手机号" name="username"
+                    id="name-tip1"  data-placement="bottom" >
+                </div>
+                <span class="glyphicon -glyphicon-remove form-control-feedback" aria-hidden="true" id="name-tip2"></span>
 
-            <div class="input-group">
-                <span class="input-group-addon">账号</span>
-                <input type="text" class="form-control" placeholder="6~10位数字" name="username">
             </div>
 
-            <div class="input-group">
-                <span class="input-group-addon">密码</span>
-                <input type="password" class="form-control" placeholder="6~10位数密码" name="password">
+
+            <div class="form-group -has-success has-feedback">
+                <div class="input-group">
+                    <span class="input-group-addon">密码</span>
+                    <input type="password" class="form-control" placeholder="6~10位密码" name="password"
+                     id="password-tip1" data-toggle="popover" data-placement="bottom">
+
+                </div>
+                <span class="glyphicon -glyphicon-ok form-control-feedback" aria-hidden="true" id="password-tip2"></span>
             </div>
 
-            <div class="input-group">
-                <span class="input-group-addon">昵称</span>
-                <input type="text" class="form-control" placeholder="昵称" name="name">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">电话</span>
-                <input type="text" class="form-control" placeholder="电话" name="tel">
+
+
+            <div class="form-group has-success has-feedback">
+                <div class="input-group">
+                    <span class="input-group-addon">昵称</span>
+                    <input type="text" class="form-control" placeholder="昵称" name="name" id="nc-tip1">
+                </div>
+                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" id="nc-tip2"></span>
             </div>
 
-            <input type="submit" value="注册" id="subButton">
+            <div class="form-group has-success has-feedback">
+                <div class="input-group">
+                    <span class="input-group-addon">邮箱</span>
+                    <input type="text" class="form-control" placeholder="可不填" name="emal" >
+                </div>
+                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ></span>
+            </div>
+
+
+
         </form>
+     <input type="submit" value="注册" id="subButton">
     </div>
+
+
 {% endblock %}
+

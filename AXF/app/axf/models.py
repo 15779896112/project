@@ -107,6 +107,18 @@ class User(models.Model):
     password = models.CharField(max_length=256)
     name = models.CharField(max_length=20)
     ss = models.CharField(max_length=10,default='1')
-    tel = models.CharField(max_length=20)
+    tel = models.CharField(max_length=20,default='')
     add = models.CharField(max_length=100,default='')
     img = models.CharField(max_length=100,default='1552114651.7579901QQ图片20180807200333.jpg')
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(User)
+    goods=models.ForeignKey(Goods)
+    num = models.IntegerField()
+    isselect = models.BooleanField(default=False)
+    isdelete = models.BooleanField(default=False)
+
+    class Meta:
+
+        db_table = 'axf_cart'
