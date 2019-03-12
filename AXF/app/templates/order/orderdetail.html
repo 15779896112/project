@@ -1,0 +1,21 @@
+{% extends 'base/base.html' %}
+{% block title %}
+    订单详情
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block content %}
+    <h3>订单号：{{ order.identifier }}&nbsp;&nbsp;时间：{{ order.createtime }}</h3>
+    <p>商品详情:</p>
+     {% for ordergoods in order.ordergoods_set.all %}
+        <p >{{ ordergoods.goods.productlongname }}&nbsp;<span style="color: red">×{{ ordergoods.num }}</span>&nbsp;<u>单价：{{ ordergoods.goods.price }}元</u></p>
+
+    {% endfor %}
+
+
+        <button class="btn btn-default">支付</button>
+    </div>
+
+{% endblock %}

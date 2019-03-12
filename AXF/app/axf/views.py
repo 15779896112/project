@@ -13,7 +13,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from app import settings
 from app.settings import BASE_DIR
-from axf.models import Wheel, Nav, Mustbuy, Shop, Mainshow, Foodtypes, Goods, User, Cart
+from axf.models import Wheel, Nav, Mustbuy, Shop, Mainshow, Foodtypes, Goods, User, Cart, Order, OrderGoods
 
 global random_str
 
@@ -71,11 +71,30 @@ def market(request, childcid='0', sortid='0'):
         'childcid': childcid,
 
     }
+    token = request.session.get('token')
+    userid = cache.get(token)
+    if userid:
+        user = User.objects.get(pk=userid)
+        carts = user.cart_set.all()
+        food_list['carts'] = carts
+
+
+
     return render(request, 'market/market.html', context=food_list)
 
 
 def cart(request):
-    return render(request, 'cart/cart.html')
+    token = request.session.get('token')
+    userid = cache.get(token)
+    if userid:
+        user = User.objects.get(pk=userid)
+        carts = user.cart_set.filter(num__gt=0)
+        data = {
+            'carts':carts
+        }
+    else:
+        return redirect('axf:login')
+    return render(request, 'cart/cart.html',context=data)
 
 
 def mine(request):
@@ -84,7 +103,10 @@ def mine(request):
     user = None
     if userid:
         user = User.objects.get(pk=userid)
-        print(user.name)
+        orders = user.order_set.all()
+
+
+
 
     return render(request, 'mine/mine.html', context={'user': user})
 
@@ -126,7 +148,6 @@ def login(request):
     elif request.method == 'POST':
 
         username = request.POST.get('username')
-
         users = User.objects.filter(username=username)
         if users.exists():
             user = users.first()
@@ -250,9 +271,7 @@ def addcart(request):
 
     if users.exists():
         user = users.first()
-
         productid = request.GET.get('productid')
-        print(productid)
         goods = Goods.objects.filter(productid=productid).first()
         carts =Cart.objects.filter(user=user).filter(goods=goods)
         data = {
@@ -263,7 +282,6 @@ def addcart(request):
             cart = carts.first()
             cart.num = cart.num +1
             cart.save()
-            print('添加num成功')
             data['num'] = cart.num
         else:
             cart = Cart()
@@ -272,8 +290,6 @@ def addcart(request):
             cart.num = 1
             cart.save()
             data['num'] = cart.num
-            print('添加cart成功')
-
 
     else:
         data = {
@@ -284,4 +300,120 @@ def addcart(request):
 
 
 
-    # return JsonResponse(data={})
+
+
+
+def delcart(request):
+    productid = request.GET.get('productid')
+    token = request.session.get('token')
+    userid = cache.get(token)
+    users =  User.objects.filter(pk=userid)
+
+
+    user = users.first()
+
+    productid = request.GET.get('productid')
+
+    goods = Goods.objects.filter(productid=productid).first()
+    carts =Cart.objects.filter(user=user).filter(goods=goods)
+    data = {
+        'value': 1
+    }
+    cart = carts.first()
+    cart.num = cart.num -1
+    print(cart.num)
+    cart.save()
+    data['num'] = cart.num
+
+
+
+
+    return JsonResponse(data)
+
+
+def changecartselect(request):
+    cartid = request.GET.get('cartid')
+    cart = Cart.objects.get(pk=cartid)
+    cart.isselect = not cart.isselect
+    cart.save()
+
+    data = {
+        'status':1,
+        'value':cart.isselect,
+    }
+    return JsonResponse(data)
+
+
+def allselect(request):
+    isall = request.GET.get('isall')
+    token = request.session.get('token')
+    userid = cache.get(token)
+    user = User.objects.get(pk=userid)
+    carts = user.cart_set.all()
+    if isall == 'true':
+        isall = True
+    else:
+        isall = False
+    for cart in carts:
+        cart.isselect = isall
+        cart.save()
+    response_data = {
+        'status': 1
+    }
+    return JsonResponse(response_data)
+
+
+def total(request):
+    token = request.session.get('token')
+    userid = cache.get(token)
+    user = User.objects.get(pk=userid)
+    carts = user.cart_set.filter(isselect=True)
+    sum = 0
+    for cart in carts:
+        sum += cart.num*cart.goods.price
+    response_data = {
+        'sum': sum
+    }
+
+    return JsonResponse(response_data)
+
+def create_identifier():
+    identifier = str(int(time.time()))+str((random.randrange(1000,10000)))
+    return identifier
+
+def cerateorder(request):
+    token = request.session.get('token')
+    userid = cache.get(token)
+    user = User.objects.get(pk=userid)
+    carts = user.cart_set.filter(isselect='True')
+    if carts.exists():
+        order = Order()
+        order.user = user
+        order.identifier = create_identifier()
+
+        order.save()
+        for cart in carts:
+            ordergoods = OrderGoods()
+            ordergoods.order = order
+            ordergoods.goods = cart.goods
+            ordergoods.num = cart.num
+            ordergoods.save()
+            cart.delete()
+        return render(request, 'order/orderdetail.html', context={'order': order})
+    return redirect('axf:cart')
+
+
+def showallorder(request):
+    token = request.session.get('token')
+    userid = cache.get(token)
+    user = User.objects.get(pk=userid)
+    orders = user.order_set.all()
+
+    return render(request, 'order/showallorder.html', context={'orders': orders})
+
+
+def goodsdetail(request,identifier):
+    order = Order.objects.filter(identifier=identifier).first()
+
+    return render(request, 'order/orderdetail.html', context={'order': order})
+

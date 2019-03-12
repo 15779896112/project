@@ -53,12 +53,22 @@ $(function () {
 
 
 //////////////////////////////////////////////////////////////////////////////
+  $('.bt-wrapper .num').each(function () {
+        var num = parseInt($(this).html())
+        if (num) {
+            $(this).prev().show()
+            $(this).show()
+        } else {
+            $(this).prev().hide()
+            $(this).hide()
+        }
+    })
 
 
-    $('.bt-wrapper>.glyphicon-minus').hide()
-    $('.bt-wrapper>i').hide()
     $('.bt-wrapper>.glyphicon-plus').click(function () {
+
         productid = $(this).attr('productid')
+        $that = $(this)
         data = {
             'productid': productid,
 
@@ -68,17 +78,37 @@ $(function () {
                 $.cookie('back', 'market', {expires: 3, path: '/'})
                 window.open('/login/', '_self')
             } else {
-                $('.bt-wrapper>.glyphicon-minus').show()
-                $('.bt-wrapper>i').html(response.num)
-                $('.bt-wrapper>i').show()
+                $that.prev().prev().show()
+                $that.prev().show()
+                $that.prev().html(response.num)
+
+            }
+        })
+    })
 
 
+    $('.bt-wrapper>.glyphicon-minus').click(function () {
+
+        productid = $(this).attr('productid')
+        $that = $(this)
+        data = {
+            'productid': productid,
+        }
+        $.get('/delcart/', data, function (response) {
+            $that.next().html(response.num)
+            num = parseInt(response.num)
+            if (num > 0) {
+
+                $that.show()
+                $that.next().show()
+                $that.next().html(response.num)
+            } else {
+                $that.hide()
+                $that.next().hide()
             }
 
 
         })
-
-
     })
 
-})
+  })

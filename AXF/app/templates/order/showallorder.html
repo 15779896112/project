@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+{% block title %}
+    我的订单
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block content %}
+    {% for order in orders %}
+        <div class="alert alert-warning" role="alert">
+            <a href={% url 'axf:goodsdetail'  order.identifier%} class="alert-link">订单号：{{ order.identifier }}&nbsp;&nbsp;时间：{{ order.createtime }}</a>
+        </div>
+    {% endfor %}
+{% endblock %}

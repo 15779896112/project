@@ -15,5 +15,11 @@ urlpatterns = [
     url(r'^verifycode/',views.verifycode,name='verifycode'),
     url(r'^checketel/', views.checketel, name='checketel'),
     url(r'^addcart/',views.addcart,name='addcart'),
-
+    url(r'^delcart/',views.delcart,name='delcart'),
+    url(r'^changecartselect/',views.changecartselect,name='changecartselect'),
+    url(r'^allselect/',views.allselect,name='allselect'),
+    url(r'^total/',views.total,name='total'),
+    url('^createorder/',views.cerateorder,name='cerateorder'),
+    url('^showallorder/',views.showallorder,name='showallorder'),
+    url('^goodsdetail/(\w+)/',views.goodsdetail,name='goodsdetail')
 ]

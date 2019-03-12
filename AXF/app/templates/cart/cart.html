@@ -11,7 +11,53 @@
     <link rel="stylesheet" href="{% static 'cart/css/cart.css' %}">
 {% endblock %}
 
+{% block extjs %}
+    <script src="{% static 'cart/js/cart.js' %}"></script>
+{% endblock %}
+
 
 {% block content %}
-    购物车
+    <div class="cart">
+         <ul>
+             {% for cart in carts %}
+                <li>
+                    <div class="confirm-wrapper" data-cardid={{ cart.id }}>
+                        {% if cart.isselect %}
+                            <span class="glyphicon glyphicon-ok"></span>
+                        {% else %}
+                            <span class="glyphicon no"></span>
+                        {% endif %}
+
+                    </div>
+                    <div class="content-wrapper">
+                        <div class="img">
+                            <img src={{ cart.goods.productimg }} >
+                        </div>
+                        <div class="detail">
+                            <div class="name">{{ cart.goods.productlongname }}</div>
+                            <div class="price">{{ cart.goods.price }}</div>
+                            <div class="num">×{{ cart.num }}</div>
+                        </div>
+                    </div>
+                </li>
+             {% endfor %}
+
+
+        </ul>
+        <div class="bill">
+            <div class="bill-left" >
+                <div class="all" data-all='false'>
+                    <span class="glyphicon no"></span>
+                    <b>全选</b>
+                </div>
+                <div class="total">
+                    <span>￥</span>
+                    <b id="all_price">0</b>
+                </div>
+            </div>
+            <div class="bill-right"><a href="{% url 'axf:cerateorder' %}">结算</a></div>
+        </div>
+    </div>
+
 {% endblock %}
+
