@@ -101,16 +101,19 @@ def mine(request):
     token = request.session.get('token')
     userid = cache.get(token)
     user = None
+    str = {
+        'user': user,
+
+    }
     if userid:
         user = User.objects.get(pk=userid)
         orders = user.order_set.all()
 
-        str = {
-            'user': user,
-            'a': orders.filter(status=0).count()
 
 
-        }
+
+        str['a'] = orders.filter(status=0).count()
+
 
 
 
