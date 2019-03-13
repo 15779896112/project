@@ -36,13 +36,13 @@
                 <span class="input-group-addon">密码</span>
                 <input type="password" class="form-control" placeholder={{ err2|default:"6~10位数密码" }} name="password">
             </div>
-            <div class="input-group">
-                <span class="input-group-addon">验证码</span>
-                <input type="password" class="form-control" placeholder={{ err3|default:"4位" }} name="yzm">
-            </div>
-            <div class="yzm">
-            <img src="{% url 'axf:verifycode' %}" alt="">
-            </div>
+{#            <div class="input-group">#}
+{#                <span class="input-group-addon">验证码</span>#}
+{#                <input type="password" class="form-control" placeholder={{ err3|default:"4位" }} name="yzm">#}
+{#            </div>#}
+{#            <div class="yzm">#}
+{#            <img src="{% url 'axf:verifycode' %}" alt="">#}
+{#            </div>#}
 {#            <button id="sx">刷新</button>#}
 
             <input type="submit" value="登录" id="subButton">

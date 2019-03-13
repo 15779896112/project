@@ -102,16 +102,13 @@ def mine(request):
     userid = cache.get(token)
     user = None
     str = {
-        'user': user,
+
 
     }
     if userid:
         user = User.objects.get(pk=userid)
         orders = user.order_set.all()
-
-
-
-
+        str['user'] = user
         str['a'] = orders.filter(status=0).count()
 
 
@@ -165,15 +162,11 @@ def login(request):
                 token = generate_token()
                 cache.set(token, user.id, 60 * 60 * 24 * 3)
                 request.session['token'] = token
-                # print(random_str)
-                yzm = request.POST.get('yzm')
-                yzm = yzm.lower()
-                if yzm == random_str:
-                    back = request.COOKIES.get('back')
-                    path = 'axf:' + back
-                    return redirect(path)
-                else:
-                    return render(request, 'mine/login.html', context={'err3': '验证码错误'})
+
+
+                back = request.COOKIES.get('back')
+                path = 'axf:' + back
+                return redirect(path)
 
             else:
                 return render(request, 'mine/login.html', context={'err2': '密码错误'})
@@ -208,53 +201,53 @@ def fileup(request):
         return HttpResponse('文件上传失败')
 
 
-def verifycode(request):
-
-    width = 120
-    height = 40
-
-    bgcolor = (random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256))
-
-    image = Image.new('RGB', (width, height), bgcolor)
-    draw = ImageDraw.Draw(image)
-
-    temp = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'
-    global random_str
-    random_str = ''
-    for i in range(0, 4):
-        random_str += temp[random.randrange(0, len(temp))]
-
-    font = ImageFont.truetype('/home/wzh/Desktop/wzh/project/AXF/app/static/mine/fonts/Fangsong.ttf', 30)
-
-
-    font_color_1 = (random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256))
-    font_color_2 = (random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256))
-    font_color_3 = (random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256))
-    font_color_4 = (random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256))
-
-
-    draw.text((10, 5), random_str[0], fill=font_color_1, font=font)
-    draw.text((40, 5), random_str[1], fill=font_color_1, font=font)
-    draw.text((70, 5), random_str[2], fill=font_color_1, font=font)
-    draw.text((100, 5), random_str[3], fill=font_color_1, font=font)
-
-    line_color_1 = (random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256))
-
-    for i in range(5):
-        x1 = random.randint(0, width)
-        x2 = random.randint(0, width)
-        y1 = random.randint(0, height)
-        y2 = random.randint(0, height)
-        draw.line((x1, y1, x2, y2), fill=line_color_1)
-
-    random_str = random_str.lower()
-    del draw
-
-
-    buff = io.BytesIO()
-    image.save(buff, 'png')
-
-    return HttpResponse(buff.getvalue(), 'image/png')
+# def verifycode(request):
+#
+#     width = 120
+#     height = 40
+#
+#     bgcolor = (random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256))
+#
+#     image = Image.new('RGB', (width, height), bgcolor)
+#     draw = ImageDraw.Draw(image)
+#
+#     temp = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'
+#     global random_str
+#     random_str = ''
+#     for i in range(0, 4):
+#         random_str += temp[random.randrange(0, len(temp))]
+#
+#     font = ImageFont.truetype('/home/wzh/Desktop/wzh/project/AXF/app/static/mine/fonts/Fangsong.ttf', 30)
+#
+#
+#     font_color_1 = (random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256))
+#     font_color_2 = (random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256))
+#     font_color_3 = (random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256))
+#     font_color_4 = (random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256))
+#
+#
+#     draw.text((10, 5), random_str[0], fill=font_color_1, font=font)
+#     draw.text((40, 5), random_str[1], fill=font_color_1, font=font)
+#     draw.text((70, 5), random_str[2], fill=font_color_1, font=font)
+#     draw.text((100, 5), random_str[3], fill=font_color_1, font=font)
+#
+#     line_color_1 = (random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256))
+#
+#     for i in range(5):
+#         x1 = random.randint(0, width)
+#         x2 = random.randint(0, width)
+#         y1 = random.randint(0, height)
+#         y2 = random.randint(0, height)
+#         draw.line((x1, y1, x2, y2), fill=line_color_1)
+#
+#     random_str = random_str.lower()
+#     del draw
+#
+#
+#     buff = io.BytesIO()
+#     image.save(buff, 'png')
+#
+#     return HttpResponse(buff.getvalue(), 'image/png')
 
 
 def checketel(request):
