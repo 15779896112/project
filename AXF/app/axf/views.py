@@ -105,10 +105,17 @@ def mine(request):
         user = User.objects.get(pk=userid)
         orders = user.order_set.all()
 
+        str = {
+            'user': user,
+            'a': orders.filter(status=0).count()
+
+
+        }
 
 
 
-    return render(request, 'mine/mine.html', context={'user': user})
+
+    return render(request, 'mine/mine.html', context=str)
 
 
 def generate_password(param):
